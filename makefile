@@ -2,10 +2,6 @@
 
 # lib/ contém o JAX-WS (removido do JDK a partir do Java 11)
 CP = ./class:./lib/*
-
-# O cluster roda Java 11 e não tem javac: as classes são geradas para Java 11
-# em uma máquina com JDK e versionadas em class/.
-# Para usar outro compilador: make class JAVAC=/caminho/do/jdk/bin/javac
 JAVAC ?= javac
 JAVA_RELEASE = 11
 
