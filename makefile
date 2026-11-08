@@ -5,6 +5,18 @@ CP = ./class:./lib/*
 JAVAC ?= javac
 JAVA_RELEASE = 11
 
+# Endereço de cada serviço. Para trocar: make server ALUNO_HOST=10.0.0.1
+ALUNO_HOST ?= 127.0.0.2
+TURMA_HOST ?= 127.0.0.3
+SECRETARIA_HOST ?= 127.0.0.4
+WS_HOST ?= 127.0.0.5
+
+RUN_ALUNO = java -Djava.rmi.server.hostname=$(ALUNO_HOST) -cp "$(CP)" Aluno.AlunoServer
+RUN_TURMA = java -Djava.rmi.server.hostname=$(TURMA_HOST) -cp "$(CP)" Turma.TurmaServer $(ALUNO_HOST)
+RUN_SECRETARIA = java -Djava.rmi.server.hostname=$(SECRETARIA_HOST) -cp "$(CP)" Secretaria.SecretariaServer $(ALUNO_HOST) $(TURMA_HOST)
+RUN_WS = java -cp "$(CP)" sca.WSServerPublisher $(ALUNO_HOST) $(TURMA_HOST) $(SECRETARIA_HOST) $(WS_HOST)
+RUN_CLIENT = java -cp "$(CP)" sca.WSClient http://$(WS_HOST):9876/WSSCA
+
 class:
 	@if command -v "$(JAVAC)" >/dev/null 2>&1; then \
 		mkdir -p ./class; \
@@ -28,25 +40,25 @@ clean: clean-data
 	fi
 
 aluno-server:
-	java -cp "$(CP)" Aluno.AlunoServer
+	$(RUN_ALUNO)
 
 turma-server:
-	java -cp "$(CP)" Turma.TurmaServer localhost
+	$(RUN_TURMA)
 
 secretaria-server:
-	java -cp "$(CP)" Secretaria.SecretariaServer localhost localhost
+	$(RUN_SECRETARIA)
 
 ws-server:
-	java -cp "$(CP)" sca.WSServerPublisher localhost localhost localhost
+	$(RUN_WS)
 
 server:
-	java -cp "$(CP)" Aluno.AlunoServer & \
+	$(RUN_ALUNO) & \
 	sleep 1; \
-	java -cp "$(CP)" Turma.TurmaServer localhost & \
+	$(RUN_TURMA) & \
 	sleep 1; \
-	java -cp "$(CP)" Secretaria.SecretariaServer localhost localhost & \
+	$(RUN_SECRETARIA) & \
 	sleep 1; \
-	java -cp "$(CP)" sca.WSServerPublisher localhost localhost localhost & \
+	$(RUN_WS) & \
 	wait
 
 server-down:
@@ -57,20 +69,20 @@ server-down:
 
 # cliente externo: acessa somente o WSSCA
 ws-client:
-	java -cp "$(CP)" sca.WSClient http://127.0.0.1:9876/WSSCA
+	$(RUN_CLIENT)
 
 test: clean-data class
-	java -cp "$(CP)" Aluno.AlunoServer & \
+	$(RUN_ALUNO) & \
 	ALUNO_PID=$$!; \
 	sleep 1; \
-	java -cp "$(CP)" Turma.TurmaServer localhost & \
+	$(RUN_TURMA) & \
 	TURMA_PID=$$!; \
 	sleep 1; \
-	java -cp "$(CP)" Secretaria.SecretariaServer localhost localhost & \
+	$(RUN_SECRETARIA) & \
 	SECRETARIA_PID=$$!; \
 	sleep 1; \
-	java -cp "$(CP)" sca.WSServerPublisher localhost localhost localhost & \
+	$(RUN_WS) & \
 	WS_PID=$$!; \
 	sleep 3; \
-	java -cp "$(CP)" sca.WSClient http://127.0.0.1:9876/WSSCA; \
+	$(RUN_CLIENT); \
 	kill $$ALUNO_PID $$TURMA_PID $$SECRETARIA_PID $$WS_PID 2>/dev/null

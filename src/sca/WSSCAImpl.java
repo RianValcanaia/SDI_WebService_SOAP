@@ -112,7 +112,7 @@ public class WSSCAImpl implements WSSCA {
     }
 
     private SecretariaService secretariaService() throws RemoteException {
-        String propriedadeHost = "sca.aluno.host";
+        String propriedadeHost = "sca.secretaria.host";
         int porta = 7020;
         String service = "SecretariaService";
 

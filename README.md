@@ -40,32 +40,34 @@ make class
 
 ## Rodar
 
-Cada servidor recebe como argumento os hosts dos serviços de que depende (padrão `localhost`). Ordem: Aluno → Turma → Secretaria → WS.
+Cada servidor recebe como argumento os hosts dos serviços de que depende (padrão `localhost`). O endereço do próprio servidor vem de `-Djava.rmi.server.hostname` nos serviços RMI e do último argumento no WS; as portas só escutam nesse endereço. Ordem: Aluno → Turma → Secretaria → WS.
 
 ```bash
 # máquina do Aluno
-java -cp "./class:./lib/*" Aluno.AlunoServer
+java -Djava.rmi.server.hostname=<host-aluno> -cp "./class:./lib/*" Aluno.AlunoServer
 
 # máquina da Turma (precisa do host do Aluno)
-java -cp "./class:./lib/*" Turma.TurmaServer <host-aluno>
+java -Djava.rmi.server.hostname=<host-turma> -cp "./class:./lib/*" Turma.TurmaServer <host-aluno>
 
 # máquina da Secretaria (precisa dos hosts do Aluno e da Turma)
-java -cp "./class:./lib/*" Secretaria.SecretariaServer <host-aluno> <host-turma>
+java -Djava.rmi.server.hostname=<host-secretaria> -cp "./class:./lib/*" Secretaria.SecretariaServer <host-aluno> <host-turma>
 
-# máquina do WS (precisa dos 3 hosts RMI)
-java -cp "./class:./lib/*" sca.WSServerPublisher <host-aluno> <host-turma> <host-secretaria>
+# máquina do WS (precisa dos 3 hosts RMI e do próprio endereço)
+java -cp "./class:./lib/*" sca.WSServerPublisher <host-aluno> <host-turma> <host-secretaria> <host-ws>
 
 # cliente externo (só precisa do URL do serviço)
-java -cp "./class:./lib/*" sca.WSClient http://127.0.0.1:9876/WSSCA
+java -cp "./class:./lib/*" sca.WSClient http://<host-ws>:9876/WSSCA
 ```
 
-Tudo localmente:
+Tudo localmente, com cada serviço em um endereço de loopback (Aluno `127.0.0.2`, Turma `127.0.0.3`, Secretaria `127.0.0.4`, WS `127.0.0.5`):
 
 ```bash
 make server        # sobe os 3 servidores RMI + WS
 make ws-client     # cliente SOAP
 make server-down   # derruba os processos
 ```
+
+Para usar outros endereços: `make server ALUNO_HOST=10.0.0.1`.
 
 ## Testar
 
