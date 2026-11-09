@@ -100,7 +100,7 @@ public class WSSCAImpl implements WSSCA {
 
     private TurmaService turmaService() throws RemoteException {
         String propriedadeHost = "sca.turma.host";
-        int porta = 7010;
+        int porta = 7000;
         String service = "TurmaService";
 
         String host = System.getProperty(propriedadeHost, "localhost");
@@ -113,7 +113,7 @@ public class WSSCAImpl implements WSSCA {
 
     private SecretariaService secretariaService() throws RemoteException {
         String propriedadeHost = "sca.secretaria.host";
-        int porta = 7020;
+        int porta = 7000;
         String service = "SecretariaService";
 
         String host = System.getProperty(propriedadeHost, "localhost");

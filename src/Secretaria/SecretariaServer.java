@@ -20,17 +20,17 @@ public class SecretariaServer {
             RMIServerSocketFactory sockets = porta -> new ServerSocket(porta, 50, InetAddress.getByName(host));
 
             AlunoService aluno_service = (AlunoService) Naming.lookup("//" + alunoHost + ":7000/AlunoService");
-            TurmaService turma_service = (TurmaService) Naming.lookup("//" + turmaHost + ":7010/TurmaService");
+            TurmaService turma_service = (TurmaService) Naming.lookup("//" + turmaHost + ":7000/TurmaService");
 
             SecretariaServent secretaria_servent = new SecretariaServent(aluno_service, turma_service);
 
             SecretariaService stub = (SecretariaService) UnicastRemoteObject.exportObject(secretaria_servent, 0, null, sockets);
 
-            LocateRegistry.createRegistry(7020, null, sockets);
+            LocateRegistry.createRegistry(7000, null, sockets);
 
-            Naming.rebind("//" + host + ":7020/SecretariaService", stub);
+            Naming.rebind("//" + host + ":7000/SecretariaService", stub);
 
-            System.out.println("SecretariaService Server iniciado em " + host + ":7020/SecretariaService");
+            System.out.println("SecretariaService Server iniciado em " + host + ":7000/SecretariaService");
 
         }catch(Exception e){
             System.out.println("Erro SecretariaServer main: " + e.getMessage());

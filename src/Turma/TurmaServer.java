@@ -22,11 +22,11 @@ public class TurmaServer {
 
             TurmaService stub = (TurmaService)UnicastRemoteObject.exportObject(turma_servent, 0, null, sockets);
 
-            LocateRegistry.createRegistry(7010, null, sockets);
+            LocateRegistry.createRegistry(7000, null, sockets);
 
-            Naming.rebind("//" + host + ":7010/TurmaService", stub);
+            Naming.rebind("//" + host + ":7000/TurmaService", stub);
 
-            System.out.println("TurmaService Server iniciado em " + host + ":7010/TurmaService");
+            System.out.println("TurmaService Server iniciado em " + host + ":7000/TurmaService");
         }catch(Exception e){
             System.out.println("Erro TurmaServer main: " + e.getMessage());
             e.printStackTrace();
