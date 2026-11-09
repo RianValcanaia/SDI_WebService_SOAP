@@ -10,7 +10,8 @@ public class WSServerPublisher {
         System.setProperty("sca.turma.host", (args.length < 2) ? "localhost" : args[1]);
         System.setProperty("sca.secretaria.host", (args.length < 3) ? "localhost" : args[2]);
 
-        String url = "http://" + ((args.length < 4) ? "127.0.0.1" : args[3]) + ":9876/WSSCA";
+        int wsPorta = Integer.getInteger("sca.ws.port", 9876);
+        String url = "http://" + ((args.length < 4) ? "127.0.0.1" : args[3]) + ":" + wsPorta + "/WSSCA";
 
         try {
             Endpoint.publish(url, new WSSCAImpl());

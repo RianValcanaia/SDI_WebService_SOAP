@@ -13,20 +13,22 @@ public class TurmaServer {
         String alunoHost = (args.length < 1) ? "localhost" : args[0];
         // endereço deste serviço: as portas RMI só escutam nele
         String host = System.getProperty("java.rmi.server.hostname", "localhost");
+        int alunoPorta = Integer.getInteger("sca.aluno.port", 1099);
+        int turmaPorta = Integer.getInteger("sca.turma.port", 1100);
         try{
             RMIServerSocketFactory sockets = porta -> new ServerSocket(porta, 50, InetAddress.getByName(host));
 
-            AlunoService aluno_service = (AlunoService) Naming.lookup("//" + alunoHost + ":1099" + "/AlunoService");
+            AlunoService aluno_service = (AlunoService) Naming.lookup("//" + alunoHost + ":" + alunoPorta + "/AlunoService");
 
             TurmaServent turma_servent = new TurmaServent(aluno_service);
 
             TurmaService stub = (TurmaService)UnicastRemoteObject.exportObject(turma_servent, 0, null, sockets);
 
-            LocateRegistry.createRegistry(1100, null, sockets);
+            LocateRegistry.createRegistry(turmaPorta, null, sockets);
 
-            Naming.rebind("//" + host + ":1100/TurmaService", stub);
+            Naming.rebind("//" + host + ":" + turmaPorta + "/TurmaService", stub);
 
-            System.out.println("TurmaService Server iniciado em " + host + ":1100/TurmaService");
+            System.out.println("TurmaService Server iniciado em " + host + ":" + turmaPorta + "/TurmaService");
         }catch(Exception e){
             System.out.println("Erro TurmaServer main: " + e.getMessage());
             e.printStackTrace();

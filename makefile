@@ -11,11 +11,19 @@ TURMA_HOST ?= localhost
 SECRETARIA_HOST ?= localhost
 WS_HOST ?= localhost
 
-RUN_ALUNO = java -Djava.rmi.server.hostname=$(ALUNO_HOST) -cp "$(CP)" Aluno.AlunoServer
-RUN_TURMA = java -Djava.rmi.server.hostname=$(TURMA_HOST) -cp "$(CP)" Turma.TurmaServer $(ALUNO_HOST)
-RUN_SECRETARIA = java -Djava.rmi.server.hostname=$(SECRETARIA_HOST) -cp "$(CP)" Secretaria.SecretariaServer $(ALUNO_HOST) $(TURMA_HOST)
-RUN_WS = java -cp "$(CP)" sca.WSServerPublisher $(ALUNO_HOST) $(TURMA_HOST) $(SECRETARIA_HOST) $(WS_HOST)
-RUN_CLIENT = java -cp "$(CP)" sca.WSClient http://$(WS_HOST):9876/WSSCA
+# Porta de cada serviço. Para trocar: make server ALUNO_PORT=2099
+ALUNO_PORT ?= 1099
+TURMA_PORT ?= 1100
+SECRETARIA_PORT ?= 1101
+WS_PORT ?= 9876
+
+PORTAS = -Dsca.aluno.port=$(ALUNO_PORT) -Dsca.turma.port=$(TURMA_PORT) -Dsca.secretaria.port=$(SECRETARIA_PORT) -Dsca.ws.port=$(WS_PORT)
+
+RUN_ALUNO = java $(PORTAS) -Djava.rmi.server.hostname=$(ALUNO_HOST) -cp "$(CP)" Aluno.AlunoServer
+RUN_TURMA = java $(PORTAS) -Djava.rmi.server.hostname=$(TURMA_HOST) -cp "$(CP)" Turma.TurmaServer $(ALUNO_HOST)
+RUN_SECRETARIA = java $(PORTAS) -Djava.rmi.server.hostname=$(SECRETARIA_HOST) -cp "$(CP)" Secretaria.SecretariaServer $(ALUNO_HOST) $(TURMA_HOST)
+RUN_WS = java $(PORTAS) -cp "$(CP)" sca.WSServerPublisher $(ALUNO_HOST) $(TURMA_HOST) $(SECRETARIA_HOST) $(WS_HOST)
+RUN_CLIENT = java -cp "$(CP)" sca.WSClient http://$(WS_HOST):$(WS_PORT)/WSSCA
 
 class:
 	@if command -v "$(JAVAC)" >/dev/null 2>&1; then \

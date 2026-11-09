@@ -10,9 +10,9 @@ Cada serviço RMI segue o padrão `Service` (interface remota) / `Servent` (impl
 
 | Serviço | Interface | Implementação | Bootstrap | Porta |
 |---|---|---|---|---|
-| Aluno | `AlunoService` | `AlunoServent` | `AlunoServer` | 7000 |
-| Turma | `TurmaService` | `TurmaServent` | `TurmaServer` | 7010 |
-| Secretaria | `SecretariaService` | `SecretariaServent` | `SecretariaServer` | 7020 |
+| Aluno | `AlunoService` | `AlunoServent` | `AlunoServer` | 1099 |
+| Turma | `TurmaService` | `TurmaServent` | `TurmaServer` | 1100 |
+| Secretaria | `SecretariaService` | `SecretariaServent` | `SecretariaServer` | 1101 |
 
 - `AlunoServent` e `TurmaServent` persistem os dados em CSV (`src/data/aluno.csv` e `src/data/turma.csv`, caminhos relativos à raiz do projeto, de onde o makefile roda), lidos ao iniciar e regravados a cada alteração.
 - `TurmaServent` não guarda os dados completos do aluno — só a matrícula — e resolve o restante consultando `AlunoService`  via RMI.
@@ -59,7 +59,9 @@ java -cp "./class:./lib/*" sca.WSServerPublisher <host-aluno> <host-turma> <host
 java -cp "./class:./lib/*" sca.WSClient http://<host-ws>:9876/WSSCA
 ```
 
-Tudo localmente, com cada serviço em um endereço de loopback (Aluno `127.0.0.2`, Turma `127.0.0.3`, Secretaria `127.0.0.4`, WS `127.0.0.5`):
+Sem outras opções, as portas são as da tabela acima e a do WS é 9876. Para usar outras, passe as propriedades `-Dsca.aluno.port`, `-Dsca.turma.port`, `-Dsca.secretaria.port` e `-Dsca.ws.port` em todos os comandos que dependem delas.
+
+Tudo localmente (por padrão em `localhost`):
 
 ```bash
 make server        # sobe os 3 servidores RMI + WS
@@ -67,7 +69,12 @@ make ws-client     # cliente SOAP
 make server-down   # derruba os processos
 ```
 
-Para usar outros endereços: `make server ALUNO_HOST=10.0.0.1`.
+Para usar outros endereços ou portas, informe as variáveis `ALUNO_HOST`, `TURMA_HOST`, `SECRETARIA_HOST`, `WS_HOST`, `ALUNO_PORT`, `TURMA_PORT`, `SECRETARIA_PORT` e `WS_PORT`, repetindo os mesmos valores em cada comando:
+
+```bash
+make server ALUNO_PORT=2099 WS_PORT=2876
+make ws-client WS_PORT=2876
+```
 
 ## Testar
 

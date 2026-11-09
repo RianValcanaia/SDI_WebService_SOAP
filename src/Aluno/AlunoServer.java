@@ -11,6 +11,7 @@ public class AlunoServer {
     public static void main(String[] args) {
         // endereço deste serviço: as portas RMI só escutam nele
         String host = System.getProperty("java.rmi.server.hostname", "localhost");
+        int alunoPorta = Integer.getInteger("sca.aluno.port", 1099);
         try{
             RMIServerSocketFactory sockets = porta -> new ServerSocket(porta, 50, InetAddress.getByName(host));
 
@@ -18,11 +19,11 @@ public class AlunoServer {
 
             AlunoService stub = (AlunoService)UnicastRemoteObject.exportObject(s_aluno, 0, null, sockets);
 
-            LocateRegistry.createRegistry(1099, null, sockets);
+            LocateRegistry.createRegistry(alunoPorta, null, sockets);
 
-            Naming.rebind("//" + host + ":1099/AlunoService", stub);
+            Naming.rebind("//" + host + ":" + alunoPorta + "/AlunoService", stub);
 
-            System.out.println("AlunoService Server iniciado em " + host + ":1099/AlunoService");
+            System.out.println("AlunoService Server iniciado em " + host + ":" + alunoPorta + "/AlunoService");
 
         }catch(Exception e){
             System.out.println("Erro AlunoServer main: " + e.getMessage());
