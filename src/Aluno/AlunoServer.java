@@ -18,11 +18,11 @@ public class AlunoServer {
 
             AlunoService stub = (AlunoService)UnicastRemoteObject.exportObject(s_aluno, 0, null, sockets);
 
-            LocateRegistry.createRegistry(7000, null, sockets);
+            LocateRegistry.createRegistry(1099, null, sockets);
 
-            Naming.rebind("//" + host + ":7000/AlunoService", stub);
+            Naming.rebind("//" + host + ":1099/AlunoService", stub);
 
-            System.out.println("AlunoService Server iniciado em " + host + ":7000/AlunoService");
+            System.out.println("AlunoService Server iniciado em " + host + ":1099/AlunoService");
 
         }catch(Exception e){
             System.out.println("Erro AlunoServer main: " + e.getMessage());

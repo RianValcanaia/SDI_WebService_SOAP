@@ -87,7 +87,7 @@ public class WSSCAImpl implements WSSCA {
     // ========== Acesso aos serviços RMI ==========
     private AlunoService alunoService() throws RemoteException {
         String propriedadeHost = "sca.aluno.host";
-        int porta = 7000;
+        int porta = 1099;
         String service = "AlunoService";
 
         String host = System.getProperty(propriedadeHost, "localhost");
@@ -100,7 +100,7 @@ public class WSSCAImpl implements WSSCA {
 
     private TurmaService turmaService() throws RemoteException {
         String propriedadeHost = "sca.turma.host";
-        int porta = 7000;
+        int porta = 1100;
         String service = "TurmaService";
 
         String host = System.getProperty(propriedadeHost, "localhost");
@@ -113,7 +113,7 @@ public class WSSCAImpl implements WSSCA {
 
     private SecretariaService secretariaService() throws RemoteException {
         String propriedadeHost = "sca.secretaria.host";
-        int porta = 7000;
+        int porta = 1101;
         String service = "SecretariaService";
 
         String host = System.getProperty(propriedadeHost, "localhost");

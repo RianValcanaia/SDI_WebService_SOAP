@@ -16,17 +16,17 @@ public class TurmaServer {
         try{
             RMIServerSocketFactory sockets = porta -> new ServerSocket(porta, 50, InetAddress.getByName(host));
 
-            AlunoService aluno_service = (AlunoService) Naming.lookup("//" + alunoHost + ":7000" + "/AlunoService");
+            AlunoService aluno_service = (AlunoService) Naming.lookup("//" + alunoHost + ":1099" + "/AlunoService");
 
             TurmaServent turma_servent = new TurmaServent(aluno_service);
 
             TurmaService stub = (TurmaService)UnicastRemoteObject.exportObject(turma_servent, 0, null, sockets);
 
-            LocateRegistry.createRegistry(7000, null, sockets);
+            LocateRegistry.createRegistry(1100, null, sockets);
 
-            Naming.rebind("//" + host + ":7000/TurmaService", stub);
+            Naming.rebind("//" + host + ":1100/TurmaService", stub);
 
-            System.out.println("TurmaService Server iniciado em " + host + ":7000/TurmaService");
+            System.out.println("TurmaService Server iniciado em " + host + ":1100/TurmaService");
         }catch(Exception e){
             System.out.println("Erro TurmaServer main: " + e.getMessage());
             e.printStackTrace();

@@ -6,10 +6,10 @@ JAVAC ?= javac
 JAVA_RELEASE = 11
 
 # Endereço de cada serviço. Para trocar: make server ALUNO_HOST=10.0.0.1
-ALUNO_HOST ?= 127.0.0.2
-TURMA_HOST ?= 127.0.0.3
-SECRETARIA_HOST ?= 127.0.0.4
-WS_HOST ?= 127.0.0.5
+ALUNO_HOST ?= localhost
+TURMA_HOST ?= localhost
+SECRETARIA_HOST ?= localhost
+WS_HOST ?= localhost
 
 RUN_ALUNO = java -Djava.rmi.server.hostname=$(ALUNO_HOST) -cp "$(CP)" Aluno.AlunoServer
 RUN_TURMA = java -Djava.rmi.server.hostname=$(TURMA_HOST) -cp "$(CP)" Turma.TurmaServer $(ALUNO_HOST)
