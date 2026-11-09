@@ -1,7 +1,5 @@
 package sca;
 
-import Aluno.Aluno;
-import Turma.Turma;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;

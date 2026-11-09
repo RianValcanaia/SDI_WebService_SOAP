@@ -1,4 +1,4 @@
-package Aluno;
+package sca;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

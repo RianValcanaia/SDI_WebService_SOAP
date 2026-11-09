@@ -1,7 +1,5 @@
-package Secretaria;
+package sca;
 
-import Aluno.AlunoService;
-import Turma.TurmaService;
 import java.rmi.RemoteException;
 
 public class SecretariaServent implements SecretariaService{

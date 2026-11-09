@@ -1,7 +1,5 @@
-package Turma;
+package sca;
 
-import Aluno.Aluno;
-import Aluno.AlunoService;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

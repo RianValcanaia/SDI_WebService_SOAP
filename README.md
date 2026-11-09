@@ -4,7 +4,7 @@ Implementação de um sistema de matrícula escolar usando Java RMI, dividido em
 
 ### Arquitetura
 
-Pacotes: `Aluno`, `Turma`, `Secretaria` (RMI) e `sca` (Web Service), todos em [src/](src/).
+Todas as classes ficam no pacote `sca`, em [src/sca/](src/sca/).
 
 Cada serviço RMI segue o padrão `Service` (interface remota) / `Servent` (implementação) / `Server` (processo que sobe o RMI registry e publica o serviço):
 
@@ -44,13 +44,13 @@ Cada servidor recebe como argumento os hosts dos serviços de que depende (padr�
 
 ```bash
 # máquina do Aluno
-java -Djava.rmi.server.hostname=<host-aluno> -cp "./class:./lib/*" Aluno.AlunoServer
+java -Djava.rmi.server.hostname=<host-aluno> -cp "./class:./lib/*" sca.AlunoServer
 
 # máquina da Turma (precisa do host do Aluno)
-java -Djava.rmi.server.hostname=<host-turma> -cp "./class:./lib/*" Turma.TurmaServer <host-aluno>
+java -Djava.rmi.server.hostname=<host-turma> -cp "./class:./lib/*" sca.TurmaServer <host-aluno>
 
 # máquina da Secretaria (precisa dos hosts do Aluno e da Turma)
-java -Djava.rmi.server.hostname=<host-secretaria> -cp "./class:./lib/*" Secretaria.SecretariaServer <host-aluno> <host-turma>
+java -Djava.rmi.server.hostname=<host-secretaria> -cp "./class:./lib/*" sca.SecretariaServer <host-aluno> <host-turma>
 
 # máquina do WS (precisa dos 3 hosts RMI e do próprio endereço)
 java -cp "./class:./lib/*" sca.WSServerPublisher <host-aluno> <host-turma> <host-secretaria> <host-ws>

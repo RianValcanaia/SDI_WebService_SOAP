@@ -1,7 +1,5 @@
 package sca;
 
-import Aluno.Aluno;
-import Turma.Turma;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;

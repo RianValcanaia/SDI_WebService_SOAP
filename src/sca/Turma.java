@@ -1,12 +1,12 @@
-package Turma;
+package sca;
 
-import Aluno.Aluno;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Turma implements Serializable {
-    private static final long serialVersionUID = 1L;
+    // igual ao valor padrão calculado pelo Java para a classe Turma do RMI do outro projeto
+    private static final long serialVersionUID = -2678285911935011748L;
 
     private String codigo;
     private List<Aluno> alunos; 

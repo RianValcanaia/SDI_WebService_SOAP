@@ -1,7 +1,5 @@
-package Secretaria;
+package sca;
 
-import Aluno.AlunoService;
-import Turma.TurmaService;
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.RMIServerSocketFactory;

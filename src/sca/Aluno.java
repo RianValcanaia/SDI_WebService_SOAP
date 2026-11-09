@@ -1,9 +1,10 @@
-package Aluno;
+package sca;
 
 import java.io.Serializable;
 
 public class Aluno implements Serializable {
-    private static final long serialVersionUID = 1L;
+    // igual ao valor padrão calculado pelo Java para a classe Aluno do RMI do outro projeto
+    private static final long serialVersionUID = -7017827394839405408L;
 
     private String nome;
     private String email;

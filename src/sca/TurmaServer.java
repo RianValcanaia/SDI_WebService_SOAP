@@ -1,6 +1,5 @@
-package Turma;
+package sca;
 
-import Aluno.AlunoService;
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.RMIServerSocketFactory;

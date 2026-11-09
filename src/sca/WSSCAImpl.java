@@ -1,10 +1,5 @@
 package sca;
 
-import Aluno.Aluno;
-import Aluno.AlunoService;
-import Secretaria.SecretariaService;
-import Turma.Turma;
-import Turma.TurmaService;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;

@@ -19,9 +19,9 @@ WS_PORT ?= 9876
 
 PORTAS = -Dsca.aluno.port=$(ALUNO_PORT) -Dsca.turma.port=$(TURMA_PORT) -Dsca.secretaria.port=$(SECRETARIA_PORT) -Dsca.ws.port=$(WS_PORT)
 
-RUN_ALUNO = java $(PORTAS) -Djava.rmi.server.hostname=$(ALUNO_HOST) -cp "$(CP)" Aluno.AlunoServer
-RUN_TURMA = java $(PORTAS) -Djava.rmi.server.hostname=$(TURMA_HOST) -cp "$(CP)" Turma.TurmaServer $(ALUNO_HOST)
-RUN_SECRETARIA = java $(PORTAS) -Djava.rmi.server.hostname=$(SECRETARIA_HOST) -cp "$(CP)" Secretaria.SecretariaServer $(ALUNO_HOST) $(TURMA_HOST)
+RUN_ALUNO = java $(PORTAS) -Djava.rmi.server.hostname=$(ALUNO_HOST) -cp "$(CP)" sca.AlunoServer
+RUN_TURMA = java $(PORTAS) -Djava.rmi.server.hostname=$(TURMA_HOST) -cp "$(CP)" sca.TurmaServer $(ALUNO_HOST)
+RUN_SECRETARIA = java $(PORTAS) -Djava.rmi.server.hostname=$(SECRETARIA_HOST) -cp "$(CP)" sca.SecretariaServer $(ALUNO_HOST) $(TURMA_HOST)
 RUN_WS = java $(PORTAS) -cp "$(CP)" sca.WSServerPublisher $(ALUNO_HOST) $(TURMA_HOST) $(SECRETARIA_HOST) $(WS_HOST)
 RUN_CLIENT = java -cp "$(CP)" sca.WSClient http://$(WS_HOST):$(WS_PORT)/WSSCA
 
@@ -70,9 +70,9 @@ server:
 	wait
 
 server-down:
-	-pkill -f "Aluno.AlunoServer"
-	-pkill -f "Turma.TurmaServer"
-	-pkill -f "Secretaria.SecretariaServer"
+	-pkill -f "sca.AlunoServer"
+	-pkill -f "sca.TurmaServer"
+	-pkill -f "sca.SecretariaServer"
 	-pkill -f "sca.WSServerPublisher"
 
 # cliente externo: acessa somente o WSSCA
